@@ -32,7 +32,7 @@ function PromptEntry({ setPageNum }) {
     return (
         <form className='flex flex-col w-full h-full py-16 px-20' onSubmit={handleSubmit}>
             <h1 className='text-4xl mb-4'>Tell Us About Your Idea:</h1>
-            <textarea value={textFieldValue} onChange={handleInputChange} cols="30" rows="10" placeholder='Website that sells...'
+            <textarea value={textFieldValue} onChange={handleInputChange} cols="30" rows="10" placeholder='Website that sells...' style={{ resize: 'none' }}
             className='flex-1 w-ful rounded-2xl border-[#E3E3E3] border-4 p-4 text-xl bg-[#F2F2F2] bg-opacity-60'></textarea>
             <div className='w-full'>
                 <button type='submit' className='mt-4 bg-gradient-to-br from-rose-400 to-orange-200 text-white px-6 py-3 rounded-lg text-lg flex'>Generate Fonts&nbsp; <span>&#8594;</span></button>
