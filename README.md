@@ -1,6 +1,5 @@
 # **TYPE FAICE** 
-## FONT RECOMMENDER FOR DEVLOPERS AND DESIGNERS
-####because choosing fonts is hard
+## The AI Powered Font Recommender
 ![Sample Gif](readmeImages/gif.gif)
 
 ![rainbow divider](readmeImages/rainbow.png)
