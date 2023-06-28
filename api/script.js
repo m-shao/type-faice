@@ -1,34 +1,16 @@
-// import { config } from "dotenv"
-// config()
-
-// import { Configuration, OpenAIApi } from "openai"
-// import readline from "readline"
-
-// const openAi = new OpenAIApi(
-//   new Configuration({
-//     apiKey: process.env.OPEN_AI_API_KEY,
-//   })
-// )
-
-// const userInterface = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// })
-
-// userInterface.prompt()
-// userInterface.on("line", async input => {
-//   const response = await openAi.createChatCompletion({
-//     model: "gpt-3.5-turbo",
-//     messages: [{ role: "user", content: input }],
-//   })
-//   console.log(response.data.choices[0].message.content)
-//   userInterface.prompt()
-// })
-
 import express from 'express';
 import { config } from 'dotenv';
 import { Configuration, OpenAIApi } from 'openai';
 import cors from 'cors';
+import axios from 'axios';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const envConfig = {
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  GOOGLE_FONTS_API_KEY: process.env.GOOGLE_FONTS_API_KEY,
+}
 
 config();
 
@@ -37,11 +19,11 @@ app.use(cors());
 
 const openAi = new OpenAIApi(
   new Configuration({
-    apiKey: "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",
+    apiKey: envConfig.OPENAI_API_KEY,
   })
 );
 
-app.get('/api/chat', async (req, res) => {
+app.get('/api/suggestions', async (req, res) => {
   const { input } = req.query;
 
   try {
@@ -50,9 +32,24 @@ app.get('/api/chat', async (req, res) => {
       messages: [{ role: 'user', content: input}],
     });
 
-    console.log(response.status)
     const message = response.data.choices[0].message.content;
     res.send(message);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Something went wrong');
+  }
+});
+
+app.get('/api/fonts', async (req, res) => {
+  const { input } = req.query;
+
+  try {
+    const fontName = input;
+    const response = await axios.get(
+      `https://webfonts.googleapis.com/v1/webfonts?family=${fontName}&key=${envConfig.GOOGLE_FONTS_API_KEY}`
+    );
+    
+    res.send(response.data);
   } catch (error) {
     console.error(error);
     res.status(500).send('Something went wrong');
@@ -62,7 +59,6 @@ app.get('/api/chat', async (req, res) => {
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
-
 
 // try {
   
